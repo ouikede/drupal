@@ -1,0 +1,30 @@
+name = View Restful Client
+description = This is a View for quering restful clients
+core = 7.x
+version = "7.x-1.0"
+dependencies[] = views
+package = gov.pe.ca
+
+files[] = includes/restful_template.inc
+files[] = views/views_restful_client.admin.inc
+files[] = views/views_restful_client.features.inc
+
+files[] = plugins/views_restful_client_plugin_query.inc
+
+files[]= handlers/views_restful_client_handler_field.inc
+files[]= handlers/views_restful_client_handler_field_date.inc
+files[]= handlers/views_restful_client_handler_field_numeric.inc
+files[]= handlers/views_restful_client_handler_filter_numeric.inc
+files[]= handlers/views_restful_client_handler_filter_string.inc
+files[]= handlers/views_restful_client_handler_filter_date.inc
+files[]= handlers/views_restful_client_handler_filter_in_numeric.inc
+files[]= handlers/views_restful_client_handler_filter_in_string.inc
+files[]= handlers/views_restful_client_handler_sort_numeric.inc
+files[]= handlers/views_restful_client_handler_sort_string.inc
+files[]= handlers/views_restful_client_handler_sort_date.inc
+files[]= handlers/views_restful_client_argument.inc
+
+
+
+
+
