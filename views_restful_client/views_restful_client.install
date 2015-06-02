@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Installation file for views_restful_client module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ *
+ * Describe the module's data model as an associative array. This removes
+ * the requirement to write database-specific SQL to create tables.
+ *
+ * For full details: http://drupal.org/node/146843
+ */
+function views_restful_client_schema() {
+    // Schema definition of this table.
+    $schema['views_restful_client'] = array(
+        'description' => t('The holds the connection information and selection rules for restclients.'),
+        'fields' => array(
+            'nid' => array(
+                'type' => 'int',
+                'size' => 'big',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t("The view show Id."),
+            ),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 20,
+                'not null' => TRUE,
+                'default' => '',
+                'description' => t("The restful service name"),
+            ),
+            'description' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+                'description' => t("The restful service description"),
+            ),
+            'configuration' => array(
+                'type' => 'text',
+                'not null' => TRUE,
+                'description' => t("The restful service tokens"),
+            ),
+        ),
+        'primary key' => array('nid'),
+    );
+
+    return $schema;
+}
+

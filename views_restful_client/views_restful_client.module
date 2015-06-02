@@ -1,0 +1,167 @@
+<?php
+
+/**
+ * @file
+ * views_restful_client module.
+ */
+
+/**
+ * Loads the Rest Template specified by id.
+ *
+ * @param $id
+ *   The index' id.
+ * 
+ * @return RestfulTemplate|false
+ *   A completely loaded index object, or FALSE if no such index exists.
+ */
+function views_restful_client_template_load($id) {
+  $result = views_restful_client_load_record($id);
+  $template = new RestfulTemplate($result);
+
+  return $template;
+}
+
+/**
+ * Loads the Rest client data specified by id.
+ *
+ * @param $id
+ *   The index' id.
+ * 
+ * @return stdClass|false
+ *   A completely loaded index object, or FALSE if no such index exists.
+ */
+function views_restful_client_load_record($id) {
+  $table_name = "views_restful_client";
+  $query = db_select($table_name, 'vrc')
+          ->fields('vrc', array('nid', 'name', 'description', 'configuration'))
+          ->condition("nid", $id);
+  $result = $query->execute()->fetchObject();
+  return $result;
+}
+
+function views_restful_client_load_all() {
+  $table_name = "views_restful_client";
+  $query = db_select($table_name, 'vrc')
+          ->fields('vrc', array('nid', 'name', 'description', 'configuration'));
+  $result = $query->execute()->fetchAll();
+  return $result;
+}
+
+function views_restful_client_save_record($record) {
+  db_merge("views_restful_client")
+          ->key(array('nid' => $record->nid))
+          ->fields((array) $record)
+          ->execute();
+}
+
+function views_restful_client_delete_record($nid) {
+  db_delete("views_restful_client")
+          ->condition('nid', $nid)
+          ->execute();
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function views_restful_client_views_api() {
+  return array(
+      'api' => 3,
+      'path' => drupal_get_path('module', 'views_restful_client') . '/views',
+  );
+}
+
+/**
+ * Implements of hook_menu().
+ */
+function views_restful_client_menu() {
+
+  $items = array();
+
+
+
+  // Main configuration page of the basic CAPTCHA module.
+  $items['admin/config/search/restfulclient'] = array(
+      'title' => 'Restful Client Settings',
+      'description' => 'Create and configure restful clients',
+      'file' => 'views/views_restful_client.admin.inc',
+      'page callback' => 'views_restful_client_admin_content',
+      'access arguments' => array('administer Restful Client settings'),
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['admin/config/search/restfulclient/restfulclient'] = array(
+      'title' => 'LIST',
+      'description' => 'Create and configure restful clients',
+      'access arguments' => array('administer Restful Client settings'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -20,
+      'file' => 'views/views_restful_client.admin.inc',
+  );
+
+  $items['admin/config/search/restfulclient/restfulclient/settings'] = array(
+      'title' => 'General settings',
+      'access arguments' => array('administer Restful Client settings'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => 0,
+      'file' => 'views/views_restful_client.admin.inc',
+  );
+
+  $items['admin/config/search/restfulclient/restfulclient/add'] = array(
+      'title' => 'New Restful Client',
+      'description' => 'Create and configure restful clients',
+      'file' => 'views/views_restful_client.admin.inc',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('views_restful_client_admin_setting'),
+      'access arguments' => array('administer Restful Client settings'),
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 5,
+      'file' => 'views/views_restful_client.admin.inc',
+  );
+
+  // Main configuration page of the basic CAPTCHA module.
+  $items['admin/config/search/restfulclient/restfulclient/%/edit'] = array(
+      'title' => 'Restful Client Settings',
+      'description' => 'Create and configure restful clients',
+      'file' => 'views/views_restful_client.admin.inc',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('views_restful_client_admin_setting', 5),
+      'access arguments' => array('administer Restful Client settings'),
+      'type' => MENU_CALLBACK,
+      'file' => 'views/views_restful_client.admin.inc',
+  );
+
+
+
+
+
+  return $items;
+}
+
+/**
+ * Implements of hook_permission().
+ */
+function views_restful_client_permission() {
+  return array(
+      'administer Restful Client settings' => array(
+          'title' => t('Administer Restful Client settings'),
+      )
+  );
+}
+
+/**
+ * Implementation of hook_features_api
+ *
+ * Here we define the components that we want to make exportable.  For this
+ * particular module, we want to make the configurations exportable.
+ */
+function views_restful_client_features_api() {
+  return array(
+      'views_restful_client_config' => array(
+          'name' => 'Views Restful Client',
+          'file' => drupal_get_path('module', 'views_restful_client') . '/views/views_restful_client.features.inc',
+          'default_hook' => 'views_restful_client_config_features_default_settings',
+          'feature_source' => TRUE,
+      ),
+  );
+}
+
