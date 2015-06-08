@@ -502,6 +502,14 @@ projects[webform_phone][type] = "module"
 projects[webform_phone][download][type] = "get"
 projects[webform_phone][download][url] = "http://ftp.drupal.org/files/projects/webform_phone-7.x-1.21.tar.gz"
 
+
+projects[charts][version] = 7.x-2.0-rc1
+projects[charts][subdir] = contrib
+projects[charts][type] = "module"
+projects[charts][download][type] = "get"
+projects[charts][download][url] = "http://ftp.drupal.org/files/projects/charts-7.x-2.0-rc1.tar.gz"
+
+
 ; Libraries
 
 ; Example
@@ -529,4 +537,8 @@ libraries[imagesloaded][download][url] = "https://github.com/desandro/imagesload
 libraries[openlayers][download][type] = "get"
 libraries[openlayers][destination] = libraries
 libraries[openlayers][download][url] = "https://github.com/openlayers/openlayers/releases/download/release-2.11/OpenLayers-2.11.tar.gz"
+
+libraries[autopager][download][type] = "get"
+libraries[autopager][destination] = libraries
+libraries[autopager][download][url] = "http://code.highcharts.com/zips/Highcharts-4.1.5.zip"
 
