@@ -48,16 +48,28 @@ class RestfulTemplate {
   private $definition;
   private $datapath;
 
-  public function __construct(stdClass $options) {
-
-
-    $this->definition = json_decode($options->configuration);
-    $this->datapath = $this->definition->datapath;
-    $this->base_url = $this->definition->url;
-    // Set HTTP Basic Authentication parameter, if login data was set.
-    if (strlen($this->definition->user) && strlen($this->definition->pass)) {
-      $this->http_auth = 'Basic ' . base64_encode($this->definition->user . ':' . $this->definition->pass);
+  public function __construct($options) {
+    if (is_object($options)) {
+      $this->initialize($options);
     }
+  }
+  
+  private function initialize(stdClass $options){
+    try {
+        $this->definition = json_decode($options->configuration);
+        $this->datapath = $this->definition->datapath;
+        $this->base_url = $this->definition->url;
+        // Set HTTP Basic Authentication parameter, if login data was set.
+        if (strlen($this->definition->user) && strlen($this->definition->pass)) {
+          $this->http_auth = 'Basic ' . base64_encode($this->definition->user . ':' . $this->definition->pass);
+        }
+      }
+      catch (Exception $exc) {
+        if ($this->debug) {
+          drupal_set_message($exc->getTraceAsString(), 'error');
+        }
+        watchdog('views_restful_client', "Error occur on file %filename %line \n%error", array("%filename" => __FILE__, "%line" => __LINE__, "%error" => $exc->getTraceAsString()), WATCHDOG_ERROR);
+      }
   }
 
   /**
@@ -67,7 +79,7 @@ class RestfulTemplate {
     $content = str_replace("%", "(\w+)?", $r);
     $startsWith = "/^" . $content . "/i";
     $endsWith = "/" . $content . "$/i";
-    $match = "/" . $content . "/i";    
+    $match = "/" . $content . "/i";
     $key = trim(strtolower($operator));
     $table = array(
         '<' => create_function('$l,$r', 'return $l < $r;'),
@@ -100,7 +112,7 @@ class RestfulTemplate {
       $arguments = array($l, $endsWith);
     }
     elseif ((strcmp($key, 'regex') == 0) || (strcmp($key, 'contains') == 0) ||
-            (strcmp($key, 'not_contains') == 0))  {
+            (strcmp($key, 'not_contains') == 0)) {
       $arguments = array($l, $match);
     }
     else {
@@ -325,7 +337,7 @@ class RestfulTemplate {
   }
 
   public function sendRequest(array $params = array(), array $options = array()) {
-    $query = empty($params)? "": "?" . http_build_query($params);
+    $query = empty($params) ? "" : "?" . http_build_query($params);
     $url = $this->base_url;
     if (!empty($this->context_path)) {
       $url = $url . $this->context_path;

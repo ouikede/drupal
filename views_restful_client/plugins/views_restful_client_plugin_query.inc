@@ -192,10 +192,11 @@ class views_restful_client_plugin_query extends views_plugin_query {
       $token = str_replace("'", "", $tokens[1]);
       $tokens = explode(",", $token);
       foreach ($tokens as $token) {
-        if (!empty(trim($token)) && !empty($args)) {
+        $dataField = isset($token)? trim($token): "";
+        if (!empty($dataField) && !empty($args)) {
           foreach ($args as $key => $value) {
             $filter = new stdClass;
-            $filter->field = isset($token)? trim(str_replace(".", "",$token)) : "";
+            $filter->field = str_replace(".", "",$dataField);
             $filter->value = trim($value);
             $filter->operator = $this->getOperator($operator);
             $this->filters[] = $filter;
@@ -377,7 +378,9 @@ class views_restful_client_plugin_query extends views_plugin_query {
       $field = "[" . $path->field . "]";
       $entry[1] = str_replace($field, $value, $entry[1]);
     }
-    if ($isEvalEnabled && !empty(trim($entry[1]))) {
+    
+    $entry[1] = trim($entry[1]);
+    if ($isEvalEnabled && !empty($entry[1])) {
       $entryeval = $this->run_eval($entry[1]);
       $entry[1] = (!empty($entryeval)) ? $entryeval : $entry[1];
     }

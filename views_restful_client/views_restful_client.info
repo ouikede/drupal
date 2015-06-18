@@ -1,7 +1,7 @@
 name = View Restful Client
 description = This is a View for quering restful clients
 core = 7.x
-version = "7.x-1.0"
+version = "7.x-1.2"
 dependencies[] = views
 package = gov.pe.ca
 
