@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 22-Jun-2015, 7:23:20 PM
+    Author     : onoriode
+*/
+
+body {
+  min-height: 600px;
+  padding-top: 70px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
+
+#main-container{
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.form-signin {
+    max-width: 350px;
+    max-height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 20%;
+    position: relative;
+}
+
+.form-signin-heading{
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.clock-header{
+    font-size: 3.0em;
+    font-weight: bold;
+    text-align: center;
+}
+.clock-counter{
+    font-size: 10.0em;
+    text-align: center;
+}
+
+.nav li:hover{
+    background-color: #e7e7e7;
+}
+
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
